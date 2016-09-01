@@ -1,0 +1,86 @@
+Материал для этого документа был взят из следующих источников:
+- http://learn.javascript.ru/
+Этот документ предназначен исключительно для личного использования, как краткий конспект по основным моментам языка JavaScript
+
+
+
+=== 1 ===
+function isEmpty(obj) {
+  for (var key in obj) {
+    return false;
+  }
+  return true;
+}
+
+var schedule = {};
+
+alert( isEmpty(schedule) ); // true
+
+schedule["8:30"] = "подъём";
+
+alert( isEmpty(schedule) ); // false
+
+
+
+=== 2 ===
+"use strict";
+
+var salaries = {
+  "Вася": 100,
+  "Петя": 300,
+  "Даша": 250
+};
+
+var sum = 0;
+for (var name in salaries) {
+  sum += salaries[name];
+}
+
+alert( sum );
+
+
+
+=== 3 ===
+"use strict";
+
+var salaries = {
+  "Вася": 100,
+  "Петя": 300,
+  "Даша": 250
+};
+
+var max = 0;
+var maxName = "";
+for (var name in salaries) {
+  if (max < salaries[name]) {
+    max = salaries[name];
+    maxName = name;
+  }
+}
+
+alert( maxName || "нет сотрудников" );
+
+
+
+=== 4 ===
+var menu = {
+  width: 200,
+  height: 300,
+  title: "My menu"
+};
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function multiplyNumeric(obj) {
+  for (var key in obj) {
+    if (isNumeric(obj[key])) {
+      obj[key] *= 2;
+    }
+  }
+}
+
+multiplyNumeric(menu);
+
+alert( "menu width=" + menu.width + " height=" + menu.height + " title=" + menu.title );
