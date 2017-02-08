@@ -639,7 +639,7 @@ HH:mm:ss.sss – время: часы-минуты-секунды-миллисе
 
 
 
-=== Closures ===
+=== Closures/Scope ===
 Все переменные внутри функции – это свойства специального внутреннего объекта LexicalEnvironment, который создаётся при её запуске. Мы будем называть этот объект «лексическое окружение» или просто «объект переменных». При запуске функция создает объект LexicalEnvironment, записывает туда аргументы, функции и переменные. Процесс инициализации выполняется в том же порядке, что и для глобального объекта, который, вообще говоря, является частным случаем лексического окружения. В отличие от window, объект LexicalEnvironment является внутренним, он скрыт от прямого доступа.
 
 Интерпретатор, при доступе к переменной, сначала пытается найти переменную в текущем LexicalEnvironment, а затем, если её нет – ищет во внешнем объекте переменных. При создании функция получает скрытое свойство [[Scope]], которое ссылается на лексическое окружение, в котором она была создана.
@@ -653,6 +653,32 @@ HH:mm:ss.sss – время: часы-минуты-секунды-миллисе
 2. При создании функция получает системное свойство [[Scope]], которое ссылается на LexicalEnvironment, в котором она была создана.
 3. При вызове функции, куда бы её ни передали в коде – она будет искать переменные сначала у себя, а затем во внешних LexicalEnvironment с места своего «рождения».
 
+При создании функции с использованием new Function, её свойство [[Scope]] ссылается не на текущий LexicalEnvironment, а на window. Получается, что даже если бы мы захотели использовать локальные переменные в new Function, то после сжатия были бы проблемы, так как минификатор переименовывает локальные переменные.
+
+
+
+<a href="#" ng-init="isOpen = false" ng-focus="isOpen = true" ng-blur="isOpen = false">
+  <div ng-click="event.stopPropagation(); isOpen = !isOpen">Open menu</div>
+  <div ng-show="isOpen">menu</div>
+</a>
+
+[9/16/2016 12:53:13 PM] Elena Ogurzhina: uat.fee.fo/FPEM58fZG
+[9/16/2016 12:55:32 PM] Elena Ogurzhina: uat.feefo.com/places/uat-exp             uat.fee.fo/FPEM58fZG
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEchHoUs
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEBcRIDR
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEz5eKnQ
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPExZyCSR
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPESowtdY
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEjGfdh3
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPESgzgpx
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEoIkpC7
+uat.feefo.com/places/uat-exp             uat.fee.fo/FPEYiDRIq
+[9/16/2016 12:55:58 PM] Elena Ogurzhina: здесь примеры с длинной и короткой линки с кодом
+[9/16/2016 12:56:07 PM] Elena Ogurzhina: длинная линка без кода идет
+[9/16/2016 12:56:13 PM] Elena Ogurzhina: в короткой он есть
+[9/16/2016 12:58:32 PM] Elena Ogurzhina: в админке чтобы сгенерить больше - http://screencast.com/t/gjtY8R2lya  
+ввобщишь количество в поле и наживаешь кнопку сгенерить. 
+оно сsv файлик тебе вернет с кодами и линками
 
 
 
